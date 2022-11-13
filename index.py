@@ -135,64 +135,20 @@ def reg():
         
     main_menu()
 
-def analyse():
-        
-    print("\033[1;38;2;255;255;255;11;48;2;131;56;236m ╔════════════════════════╗ \n ║     Start-up   - 1     ║ \n ║     Student    - 2     ║ \n ║     Return     - 3     ║ \n ╚════════════════════════╝ \033[0m")
+def analyse():   
+    print("\033[1;38;2;255;255;255;11;48;2;131;56;236m ╔════════════════════════╗ \n ║   Past Records of Stu  ║ \n ╚════════════════════════╝ \033[0m \n")
     
-    opt = int(input("Enter your option : "))
+    df = pd.read_csv("pastrecords.csv")
+        
+    print("Number of different Countries applied are ", str(df.CountryOfApplication.nunique()), "\n")
+    print("The countries applied are")
+    for i in df.CountryOfApplication.unique():
+        print(i, end="\n")
+    print("\nAverage marks of applicants are ",round(df['AvgMarks'].mean(),2))
     
-    if opt == 1:
-        print("\033[1;38;2;0;0;0;11;48;2;58;134;255m ╔════════════════════════╗ \n ║     Graph      - 1     ║ \n ║     Data       - 2     ║ \n ║     Return     - 3     ║ \n ╚════════════════════════╝ \033[0m")
-        
-        opt = int(input("Enter your option : "))
-        
-        if opt == 1:
-            df = pd.read_csv("startup.csv")
-            
-            df.plot(x="Name", y="Age", kind="bar")
+    print("\nAverage age of applicants are ",round(df['Age'].mean()),"\n")
     
-    elif opt == 2:
-        print("\033[1;38;2;0;0;0;11;48;2;58;134;255m ╔════════════════════════╗ \n ║     Count      - 1     ║ \n ║     Data       - 2     ║ \n ║     Return     - 3     ║ \n ╚════════════════════════╝ \033[0m")
-        
-        opt = int(input("Enter your option : "))
-        
-        df = pd.read_csv("student.csv")
-        
-        if opt == 1:
-            
-            numG = sum(df.loc[:,["Marks Bachelors"]].notnull().any(axis='columns'))
-            
-            num12 = sum(df.loc[:,["Marks 12"]].notnull().any(axis='columns')) - numG
-            
-            num10 = len(df.index) - (num12 + numG)
-            
-            print("Students applying after 10th are ",num10)
-            
-            print("Students applying after 12th are ",num12)
-            
-            print("Students applying after Graduation are ",numG)
-            
-            analyse()
-            
-        elif opt == 2:
-            print(df)
-            
-            analyse()
-            
-        elif opt == 3:
-            main_menu()
-            
-        else:
-            print("\n Wrong input try again!")
-            analyse()
-    
-    elif opt == 3:
-        main_menu()
-        
-    else:
-        print("\n Wrong input try again!")
-        analyse()
-    
+    main_menu()
 
 def main_menu():
     print("\033[1;38;2;0;0;0;11;48;2;251;86;7m ╔════════════════════════╗ \n ║     Register   - 1     ║ \n ║     Analyse    - 2     ║ \n ║     Exit       - 3     ║ \n ╚════════════════════════╝ \033[0m")
